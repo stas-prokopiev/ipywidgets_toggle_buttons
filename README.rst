@@ -14,8 +14,8 @@ ipywidgets_toggle_buttons
     :target: https://ipywidgets-toggle-buttons.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://travis-ci.org/stas-prokopiev/ipywidgets_toggle_buttons.svg?branch=master
-    :target: https://travis-ci.org/stas-prokopiev/ipywidgets_toggle_buttons
+.. image:: https://travis-ci.com/stas-prokopiev/ipywidgets_toggle_buttons.svg?branch=master
+    :target: https://travis-ci.com/stas-prokopiev/ipywidgets_toggle_buttons
 
 .. image:: https://img.shields.io/pypi/v/ipywidgets_toggle_buttons
    :target: https://img.shields.io/pypi/v/ipywidgets_toggle_buttons
