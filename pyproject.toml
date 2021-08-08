@@ -5,6 +5,7 @@ description = "PYPI package with better toggle buttons"
 authors = ["stanislav <stas.prokopiev@gmail.com>"]
 readme = "README.rst"
 repository = "https://github.com/stas-prokopiev/ipywidgets_toggle_buttons"
+license="MIT"
 
 [tool.poetry.dependencies]
 python = "^3.6"
