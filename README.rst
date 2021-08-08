@@ -10,8 +10,8 @@ ipywidgets_toggle_buttons
     :target: https://github.com/stas-prokopiev/ipywidgets_toggle_buttons/blob/master/LICENSE.txt
     :alt: GitHub license<space><space>
 
-.. image:: https://readthedocs.org/projects/local-simple-database/badge/?version=latest
-    :target: https://local-simple-database.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/ipywidgets-toggle-buttons/badge/?version=latest
+    :target: https://ipywidgets-toggle-buttons.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
 .. image:: https://travis-ci.org/stas-prokopiev/ipywidgets_toggle_buttons.svg?branch=master

@@ -7,7 +7,7 @@ from collections import OrderedDict
 import ipywidgets
 
 # Local imports
-from .layouts import LAYOUT_HBOX_ANY
+from .layouts import DICT_LAYOUT_HBOX_ANY
 from .abc_toggle_buttons import ToggleButtonsABC
 
 LOGGER = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ class MultiToggleButtons(ToggleButtonsABC):
         super().__init__(**kwargs)
         self.max_pressed_buttons = max_pressed_buttons
         self.widget = ipywidgets.HBox()
-        self._init_widget_layout()
+        self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
         self.widget_parent = ipywidgets.SelectMultiple(**kwargs)
         # Additional (Hidden) attributes
         self.options = kwargs.get("options", [])
@@ -79,9 +79,3 @@ class MultiToggleButtons(ToggleButtonsABC):
             self._dict_but_by_option[str_option] = but
             list_buttons.append(self._dict_but_by_option[str_option])
         self.widget.children = list_buttons
-
-    def _init_widget_layout(self):
-        """Create layout for self.widget at the initialization stage"""
-        tmp_layout = ipywidgets.Layout(**LAYOUT_HBOX_ANY)
-        tmp_layout.flex_flow = "row wrap"
-        self.widget.layout = tmp_layout

@@ -5,7 +5,7 @@
 
 # Local imports
 
-LAYOUT_VBOX_ANY = dict(
+DICT_LAYOUT_VBOX_ANY = dict(
     width="100%",
     justify_content="center",
     align_self="center",
@@ -13,11 +13,11 @@ LAYOUT_VBOX_ANY = dict(
 
 )
 
-LAYOUT_HBOX_ANY = dict(
-    flex_wrap="wrap",
-    flex="1 1 auto",
+DICT_LAYOUT_HBOX_ANY = dict(
+    flex_flow="row wrap",
+    # flex="1 1 auto",
     width="80%",
     justify_content="center",
     align_self="center",
-    padding="10px 0px 0px 0px"
+    padding="10px 0px 0px 0px",
 )

@@ -7,8 +7,8 @@ from collections import OrderedDict
 import ipywidgets
 
 # Local imports
-from .layouts import LAYOUT_HBOX_ANY
-from .layouts import LAYOUT_VBOX_ANY
+from .layouts import DICT_LAYOUT_HBOX_ANY
+from .layouts import DICT_LAYOUT_VBOX_ANY
 from .abc_toggle_buttons import ToggleButtonsABC
 
 LOGGER = logging.getLogger(__name__)
@@ -34,7 +34,9 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         """
 
         super().__init__(**kwargs)
-        self.widget = ipywidgets.VBox(layout=LAYOUT_VBOX_ANY)
+        self.widget = ipywidgets.VBox()
+        self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_VBOX_ANY)
+
         self.widget_parent = _widget_parent()  #
         # hidden attributes to setters
         self._options_visible = []
@@ -153,14 +155,17 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
     def _create_scaffold_for_widget(self):
         """Create scaffold of ipywidget Boxes for self.widget"""
         # Main buttons box
-        self._widget_hbox_main = ipywidgets.HBox(layout=LAYOUT_HBOX_ANY)
-        self._widget_hbox_main.layout.flex_flow = "row wrap"
+        self._widget_hbox_main = ipywidgets.HBox()
+        self._widget_hbox_main.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
+        # self._widget_hbox_main.layout.flex_flow = "row wrap"
         # Middle buttons box
-        self._widget_hbox_middle_buttons = ipywidgets.HBox(layout=LAYOUT_HBOX_ANY)
+        self._widget_hbox_middle_buttons = ipywidgets.HBox()
+        self._widget_hbox_middle_buttons.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
         self._create_middle_buttons()
         # Hidden buttons box
-        self._widget_hbox_hidden = ipywidgets.HBox(layout=LAYOUT_HBOX_ANY)
-        self._widget_hbox_hidden.layout.flex_flow = "row wrap"
+        self._widget_hbox_hidden = ipywidgets.HBox()
+        self._widget_hbox_hidden.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
+        # self._widget_hbox_hidden.layout.flex_flow = "row wrap"
 
 
     def _on_click_button_to_choose_option(self, wid_but):
@@ -191,8 +196,9 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
             value=False,
             description="Show Hidden options",
             button_style="info",
-            width="%dpx" % int_button_width
+            # width="%dpx" % int_button_width
         )
+        self._wid_but_hide_show.layout.width = "%dpx" % int_button_width
         self._wid_but_hide_show.observe(
             lambda _: self._update_widget_view(), "value")
         self._widget_but_hidden_option_selected = ipywidgets.Button(

@@ -6,8 +6,8 @@ import logging
 import ipywidgets
 
 # Local imports
-from .layouts import LAYOUT_HBOX_ANY
-from .layouts import LAYOUT_VBOX_ANY
+from .layouts import DICT_LAYOUT_HBOX_ANY
+from .layouts import DICT_LAYOUT_VBOX_ANY
 from .abc_toggle_buttons import ToggleButtonsABC
 
 LOGGER = logging.getLogger(__name__)
@@ -24,9 +24,12 @@ class ToggleButtonsAutoSize(ToggleButtonsABC):
         """
         super().__init__(**kwargs)
         self.widget_parent = ipywidgets.ToggleButtons(*args, **kwargs)
-        hbox_tmp = ipywidgets.HBox([self.widget_parent], layout=LAYOUT_HBOX_ANY)
-        hbox_tmp.layout.flex_flow = "row wrap"
-        self.widget = ipywidgets.VBox([hbox_tmp], layout=LAYOUT_VBOX_ANY)
+        hbox_tmp = ipywidgets.HBox([self.widget_parent])
+
+        hbox_tmp.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
+        # hbox_tmp.layout.flex_flow = "row wrap"
+        self.widget = ipywidgets.VBox([hbox_tmp])
+        self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_VBOX_ANY)
         self._tuple_value_types = (str, )
 
     def _update_buttons_for_new_options(self):

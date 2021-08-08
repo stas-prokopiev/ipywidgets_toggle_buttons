@@ -17,21 +17,20 @@ class ToggleButtonsABC(ABC):
 
     def __init__(self, **kwargs):
         """Initialize object"""
-        self.widget = None
+        self.widget = None  # This attribute should be redefined
         self.widget_parent = None
+        self._tuple_value_types = (str, list, tuple)
+        #####
         self.func_to_get_option_width = kwargs.get(
             "func_to_get_option_width", get_buttons_min_width_needed)
-        self._tuple_value_types = [str, list, tuple]
 
     @abstractmethod
     def _update_widget_view(self):
         """ABSTRACT: Update view of widget according to self.widget_parent"""
-        pass
 
     @abstractmethod
     def _update_buttons_for_new_options(self):
         """ABSTRACT: Update buttons if options were changed"""
-        pass
 
     def _ipython_display_(self):
         """
@@ -87,13 +86,13 @@ class ToggleButtonsABC(ABC):
         Returns:
             ipywidgets.Layout(): Layout of shown widget
         """
-        if self.widget is None:
-            return None
         return self.widget.layout
 
     def _check_new_value(self, new_value):
         """Check that the new value has right type"""
-        assert isinstance(new_value, self._tuple_value_types), (
-            f"New value for widget should be: {self._tuple_value_types}"
-            f"but not: {type(new_value)}"
-        )
+
+        if not isinstance(new_value, self._tuple_value_types):
+            raise ValueError(
+                f"New value for widget should be: {self._tuple_value_types}"
+                f"but not: {type(new_value)}"
+            )
