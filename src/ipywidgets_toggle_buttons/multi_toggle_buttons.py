@@ -16,15 +16,15 @@ LOGGER = logging.getLogger(__name__)
 class MultiToggleButtons(ToggleButtonsABC):
     """Class to show multi toggle buttons with auto width"""
 
-    def __init__(self, max_pressed_buttons=999, **kwargs):
+    def __init__(self, max_chosen_values=999, **kwargs):
         """Initialize object
 
         Args:
-            max_pressed_buttons (int): Max buttons can be activated at once
+            max_chosen_values (int): Max buttons can be activated at once
         """
         # Main attributes
         super().__init__(**kwargs)
-        self.max_pressed_buttons = max_pressed_buttons
+        self.max_chosen_values = max_chosen_values
         self.widget = ipywidgets.HBox()
         self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
         self.widget_parent = ipywidgets.SelectMultiple(**kwargs)
@@ -55,9 +55,6 @@ class MultiToggleButtons(ToggleButtonsABC):
         if dict_changes["new"]:
             if str_value_to_alter not in list_cur_values:
                 list_cur_values += [str_value_to_alter]
-                if len(list_cur_values) > self.max_pressed_buttons:
-                    LOGGER.debug("Max number of pressed buttons reached")
-                    list_cur_values = list_cur_values[1:]
                 self.value = list_cur_values
         else:
             if str_value_to_alter in list_cur_values:

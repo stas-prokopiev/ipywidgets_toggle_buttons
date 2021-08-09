@@ -17,7 +17,7 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
 
     def __init__(
             self,
-            max_pressed_buttons=999,
+            max_chosen_values=999,
             options_visible=None,
             options_hidden=None,
             **kwargs
@@ -30,7 +30,7 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
             _widget_parent=ipywidgets.SelectMultiple,
             **kwargs
         )
-        self.max_pressed_buttons = max_pressed_buttons
+        self.max_chosen_values = max_chosen_values
         self._update_width_of_middle_buttons_at_start()
         self._tuple_value_types = (list, tuple)
 
@@ -52,9 +52,6 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
                 self.value = list_cur_values
         else:
             list_cur_values += [str_value_to_alter]
-            if len(list_cur_values) > self.max_pressed_buttons:
-                LOGGER.debug("Max number of pressed buttons reached")
-                list_cur_values = list_cur_values[1:]
             self.value = list_cur_values
         # self._update_widget_view()
 

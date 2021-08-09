@@ -1,5 +1,6 @@
 """Abstract class for all toggle buttons"""
 # Standard library imports
+import logging
 from abc import ABC, abstractmethod
 
 # Third party imports
@@ -7,6 +8,7 @@ from abc import ABC, abstractmethod
 # Local imports
 from .utility import get_buttons_min_width_needed
 
+LOGGER = logging.getLogger(__name__)
 
 class ToggleButtonsABC(ABC):
     """Abstract class for all toggle buttons
@@ -56,8 +58,7 @@ class ToggleButtonsABC(ABC):
         Args:
             new_value (Any): Value to set for widget
         """
-        self._check_new_value(new_value)
-        self.widget_parent.value = new_value
+        self.widget_parent.value = self._prepare_new_value(new_value)
         self._update_widget_view()
 
     @property
@@ -88,11 +89,14 @@ class ToggleButtonsABC(ABC):
         """
         return self.widget.layout
 
-    def _check_new_value(self, new_value):
+    def _prepare_new_value(self, new_value):
         """Check that the new value has right type"""
-
         if not isinstance(new_value, self._tuple_value_types):
             raise ValueError(
                 f"New value for widget should be: {self._tuple_value_types}"
                 f"but not: {type(new_value)}"
             )
+        if hasattr(self, "max_chosen_values"):
+            LOGGER.debug("Max number of pressed buttons reached")
+            new_value = new_value[-self.max_chosen_values:]
+        return new_value

@@ -10,7 +10,7 @@ from ipywidgets_toggle_buttons import MultiToggleButtons
 def test():
     """"""
     wid = MultiToggleButtons(
-        max_pressed_buttons=2, options=[str(i) for i in range(10)])
+        max_chosen_values=2, options=[str(i) for i in range(10)])
     display(wid)
     wid.options = list(wid.options) + ["ajhfkaghnkandjgnakdn"]
     print(wid.layout)
