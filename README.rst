@@ -28,7 +28,7 @@ ipywidgets_toggle_buttons
 Short Overview.
 =========================
 
-ipywidgets_toggle_buttons is a simple Python package(**py>=3.6**)
+ipywidgets_toggle_buttons is a simple python package(**py>=3.6**)
 with more toggle buttons for ipywidgets
 
 Installation via pip:
@@ -48,7 +48,7 @@ This python package consists of other ToggleButtons classes
 - ToggleButtonsWithHide - ToggleButtonsAutoSize + Hidden options
 - MultiToggleButtonsWithHide - MultiToggleButtons + Hidden options
 
-| All of them will adjust size of buttons if options modified.
+| All of them will adjust size of buttons if options are modified.
 | Also they have usual interfaces to work with values and options
 
 Simple Usage examples
@@ -224,14 +224,11 @@ Use attribute **.widget** to get full control over shown widget
     wid.widget
 
 
-
-
-
 Links
 =====
 
     * `PYPI <https://pypi.org/project/ipywidgets_toggle_buttons/>`_
-    * `readthedocs <https://local-simple-database.readthedocs.io/en/latest/>`_
+    * `readthedocs <https://ipywidgets-toggle-buttons.readthedocs.io/en/latest/>`_
     * `GitHub <https://github.com/stas-prokopiev/ipywidgets_toggle_buttons>`_
 
 Project local Links
