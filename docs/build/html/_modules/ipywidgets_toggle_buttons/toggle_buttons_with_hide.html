@@ -1,0 +1,427 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ipywidgets_toggle_buttons.toggle_buttons_with_hide &mdash; ipywidgets_toggle_buttons  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ipywidgets_toggle_buttons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">Module Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ipywidgets_toggle_buttons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ipywidgets_toggle_buttons.toggle_buttons_with_hide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ipywidgets_toggle_buttons.toggle_buttons_with_hide</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;class ToggleButtonsWithHide&quot;&quot;&quot;</span>
+<span class="c1"># Standard library imports</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="c1"># Third party imports</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span>
+
+<span class="c1"># Local imports</span>
+<span class="kn">from</span> <span class="nn">.layouts</span> <span class="kn">import</span> <span class="n">DICT_LAYOUT_HBOX_ANY</span>
+<span class="kn">from</span> <span class="nn">.layouts</span> <span class="kn">import</span> <span class="n">DICT_LAYOUT_VBOX_ANY</span>
+<span class="kn">from</span> <span class="nn">.abc_toggle_buttons</span> <span class="kn">import</span> <span class="n">ToggleButtonsABC</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ToggleButtonsWithHide"><a class="viewcode-back" href="../../api/ipywidgets_toggle_buttons.html#ipywidgets_toggle_buttons.toggle_buttons_with_hide.ToggleButtonsWithHide">[docs]</a><span class="k">class</span> <span class="nc">ToggleButtonsWithHide</span><span class="p">(</span><span class="n">ToggleButtonsABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to show toggle buttons with section of hide options</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">options_visible</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">options_hidden</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_widget_parent</span><span class="o">=</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">,</span> <span class="c1"># Don&#39;t touch it</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            options_visible (list): Main options to show always</span>
+<span class="sd">            options_hidden (list): Hidden options to show only when asked</span>
+<span class="sd">            _widget_parent (ipywidget): Technical arg, please don&#39;t touch it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widget</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="o">**</span><span class="n">DICT_LAYOUT_VBOX_ANY</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">widget_parent</span> <span class="o">=</span> <span class="n">_widget_parent</span><span class="p">()</span>  <span class="c1">#</span>
+        <span class="c1"># hidden attributes to setters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options_visible</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options_hidden</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Create scaffolds inside self.widgets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_scaffold_for_widget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict_visible_button_by_option</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict_hidden_button_by_option</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="c1"># Set options</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options_visible</span> <span class="o">=</span> <span class="n">options_visible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options_hidden</span> <span class="o">=</span> <span class="n">options_hidden</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tuple_value_types</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="c1"># self._update_widget_view()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">options_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Getter for visible options used in widget&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options_visible</span>
+
+    <span class="nd">@options_visible</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">options_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter for visible options in widget</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_value (list or tuple): New options to set for widgets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">new_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_value</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options_visible</span> <span class="o">=</span> <span class="n">new_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_buttons_for_visible_options</span><span class="p">()</span>
+        <span class="c1"># Update hidden options to delete which exists in new visible</span>
+        <span class="c1"># This will also update the whole widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options_hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options_hidden</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options_visible</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options_hidden</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">options_hidden</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Getter for hidden options used in widget&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options_hidden</span>
+
+    <span class="nd">@options_hidden</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">options_hidden</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter for hidden options in widget</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_value (list or tuple): New options to set for widgets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">new_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_value</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Filter out from hidden options all options which exists in main</span>
+        <span class="n">options_hidden_cleared</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">str_option</span> <span class="ow">in</span> <span class="n">new_value</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">str_option</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options_visible</span><span class="p">:</span>
+                <span class="n">options_hidden_cleared</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_option</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options_hidden</span> <span class="o">=</span> <span class="n">options_hidden_cleared</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options_visible</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options_hidden</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_buttons_for_hidden_options</span><span class="p">()</span>
+        <span class="c1"># self._update_widget_view()</span>
+
+<div class="viewcode-block" id="ToggleButtonsWithHide.turn_off_all_buttons"><a class="viewcode-back" href="../../api/ipywidgets_toggle_buttons.html#ipywidgets_toggle_buttons.toggle_buttons_with_hide.ToggleButtonsWithHide.turn_off_all_buttons">[docs]</a>    <span class="k">def</span> <span class="nf">turn_off_all_buttons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Mark all buttons as not clicked&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">str_option</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_visible_button_by_option</span><span class="p">:</span>
+            <span class="n">but</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_visible_button_by_option</span><span class="p">[</span><span class="n">str_option</span><span class="p">]</span>
+            <span class="n">but</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">str_option</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_hidden_button_by_option</span><span class="p">:</span>
+            <span class="n">but</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_hidden_button_by_option</span><span class="p">[</span><span class="n">str_option</span><span class="p">]</span>
+            <span class="n">but</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span></div>
+        <span class="c1"># Change style of selected hidden button</span>
+        <span class="c1"># self._widget_but_hidden_option_selected.description = &quot;...&quot;</span>
+        <span class="c1"># self._widget_but_hidden_option_selected.button_style = &quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_update_buttons_for_new_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update buttons if options were changed&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_buttons_for_visible_options</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_buttons_for_hidden_options</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_update_widget_view</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update view of the widget according to all settings&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">turn_off_all_buttons</span><span class="p">()</span>
+        <span class="c1"># Update main buttons</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_visible_button_by_option</span><span class="p">:</span>
+            <span class="n">but</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_visible_button_by_option</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+            <span class="n">but</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+        <span class="c1"># If there are no hidden options then</span>
+        <span class="c1"># don&#39;t create buttons for showing hidden options</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">options_hidden</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_main</span><span class="p">]</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="c1"># Update hidden buttons</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_hidden_button_by_option</span><span class="p">:</span>
+            <span class="n">but</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_hidden_button_by_option</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+            <span class="n">but</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_widget_but_hidden_option_selected</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_widget_but_hidden_option_selected</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_widget_but_hidden_option_selected</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_widget_but_hidden_option_selected</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># Choose which boxes to show</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wid_but_hide_show</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_wid_but_hide_show</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Hide Options below&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_main</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_middle_buttons</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_hidden</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_main</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_middle_buttons</span>
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_wid_but_hide_show</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Show Hidden Options&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_create_scaffold_for_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create scaffold of ipywidget Boxes for self.widget&quot;&quot;&quot;</span>
+        <span class="c1"># Main buttons box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_main</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_main</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="o">**</span><span class="n">DICT_LAYOUT_HBOX_ANY</span><span class="p">)</span>
+        <span class="c1"># self._widget_hbox_main.layout.flex_flow = &quot;row wrap&quot;</span>
+        <span class="c1"># Middle buttons box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_middle_buttons</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_middle_buttons</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="o">**</span><span class="n">DICT_LAYOUT_HBOX_ANY</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_middle_buttons</span><span class="p">()</span>
+        <span class="c1"># Hidden buttons box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_hidden</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_hidden</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="o">**</span><span class="n">DICT_LAYOUT_HBOX_ANY</span><span class="p">)</span>
+        <span class="c1"># self._widget_hbox_hidden.layout.flex_flow = &quot;row wrap&quot;</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_click_button_to_choose_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wid_but</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;What to do when button to choose options clicked&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">wid_but</span><span class="o">.</span><span class="n">description</span>
+
+
+    <span class="k">def</span> <span class="nf">_create_buttons_for_visible_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create buttons for all visible options&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict_visible_button_by_option</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">int_button_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_to_get_option_width</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options_visible</span><span class="p">)</span>
+        <span class="n">list_buttons</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">str_option</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options_visible</span><span class="p">):</span>
+            <span class="n">but_wid</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                <span class="n">description</span><span class="o">=</span><span class="n">str_option</span><span class="p">,</span>
+                <span class="n">layout</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">px&quot;</span> <span class="o">%</span> <span class="n">int_button_width</span><span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">but_wid</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_click_button_to_choose_option</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dict_visible_button_by_option</span><span class="p">[</span><span class="n">str_option</span><span class="p">]</span> <span class="o">=</span> <span class="n">but_wid</span>
+            <span class="n">list_buttons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">but_wid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_main</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">list_buttons</span>
+
+    <span class="k">def</span> <span class="nf">_create_middle_buttons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create buttons which are in charge what to do with hidden buttons&quot;&quot;&quot;</span>
+        <span class="n">int_button_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_to_get_option_width</span><span class="p">([</span><span class="s2">&quot;Show Hidden options&quot;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wid_but_hide_show</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">ToggleButton</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Show Hidden options&quot;</span><span class="p">,</span>
+            <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
+            <span class="c1"># width=&quot;%dpx&quot; % int_button_width</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wid_but_hide_show</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">px&quot;</span> <span class="o">%</span> <span class="n">int_button_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wid_but_hide_show</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_widget_view</span><span class="p">(),</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_but_hidden_option_selected</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_middle_buttons</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_widget_but_hidden_option_selected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wid_but_hide_show</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_create_buttons_for_hidden_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create buttons for all hidden options&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict_hidden_button_by_option</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">int_button_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_to_get_option_width</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options_hidden</span><span class="p">)</span>
+        <span class="n">list_buttons</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">str_option</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options_hidden</span><span class="p">):</span>
+            <span class="n">but_wid</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                <span class="n">description</span><span class="o">=</span><span class="n">str_option</span><span class="p">,</span>
+                <span class="n">layout</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">px&quot;</span> <span class="o">%</span> <span class="n">int_button_width</span><span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">but_wid</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_click_button_to_choose_option</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dict_hidden_button_by_option</span><span class="p">[</span><span class="n">str_option</span><span class="p">]</span> <span class="o">=</span> <span class="n">but_wid</span>
+            <span class="n">list_buttons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">but_wid</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_hbox_hidden</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">list_buttons</span>
+        <span class="c1"># Update width of middle buttons</span>
+        <span class="n">int_button_width2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_to_get_option_width</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">options_hidden</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Show Hidden options&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_widget_but_hidden_option_selected</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">px&quot;</span> <span class="o">%</span> <span class="n">int_button_width2</span><span class="p">}</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, stanislav.
+      <span class="lastupdated">
+        Last updated on Aug 09, 2021.
+      </span>
+
+    </p>
+  </div> 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
