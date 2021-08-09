@@ -31,6 +31,71 @@ Short Overview.
 ipywidgets_toggle_buttons is a simple Python package(**py>=3.6**)
 with the much nicer toggle buttons for ipywidgets
 
+Installation via pip:
+======================
+
+.. code-block:: bash
+
+    pip install ipywidgets_toggle_buttons
+
+Usage examples
+===================================================================
+
+
+
+
+ToggleButtonsAutoSize
+------------------------------------------------------------------------------
+
+.. code-block:: python
+
+    from ipywidgets_toggle_buttons import ToggleButtonsAutoSize
+    wid = ToggleButtonsAutoSize(options=[str(i) for i in range(10)])
+    wid
+
+.. image:: images/toggle_buttons_auto_size_1.JPG
+
+.. code-block:: python
+
+    wid.options = list(wid.options) + ["ajhfkaghnkandjgnakdn"]
+
+.. image:: images/toggle_buttons_auto_size_2.JPG
+
+
+
+MultiToggleButtons
+------------------------------------------------------------------------------
+
+.. code-block:: python
+
+    from ipywidgets_toggle_buttons import MultiToggleButtons
+    wid = MultiToggleButtons(
+        options=[str(i) for i in range(10)],
+        max_pressed_buttons=2,
+    )
+    wid
+
+.. image:: images/multi_toggle_buttons_1.JPG
+
+
+.. code-block:: python
+
+    wid.options = list(wid.options) + ["ajhfkaghnkandjgnakdn"]
+
+
+.. image:: images/multi_toggle_buttons_2.JPG
+
+
+
+
+ToggleButtonsWithHide
+------------------------------------------------------------------------------
+
+MultiToggleButtonsWithHide
+------------------------------------------------------------------------------
+
+
+
 
 Links
 =====

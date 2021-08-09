@@ -44,6 +44,7 @@ coverage.xml
 build/*
 dist/*
 sdist/*
+docs/source/*
 docs/api/*
 docs/_rst/*
 docs/_build/*
