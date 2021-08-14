@@ -35,6 +35,7 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
 
         super().__init__(**kwargs)
         self.widget = ipywidgets.VBox()
+        self.box_widget = self.widget
         self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_VBOX_ANY)
 
         self.widget_parent = _widget_parent()  #
@@ -51,7 +52,7 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         self._tuple_value_types = (str, )
         if "value" in kwargs:
             self.value = kwargs["value"]
-        # self._update_widget_view()
+        self._update_widget_view()
 
     @property
     def options_visible(self):
@@ -167,11 +168,9 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         self._widget_hbox_hidden.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
         # self._widget_hbox_hidden.layout.flex_flow = "row wrap"
 
-
     def _on_click_button_to_choose_option(self, wid_but):
         """What to do when button to choose options clicked"""
         self.value = wid_but.description
-
 
     def _create_buttons_for_visible_options(self):
         """Create buttons for all visible options"""

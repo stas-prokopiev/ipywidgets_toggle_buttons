@@ -25,12 +25,12 @@ class ToggleButtonsAutoSize(ToggleButtonsABC):
         super().__init__(**kwargs)
         self.widget_parent = ipywidgets.ToggleButtons(*args, **kwargs)
         hbox_tmp = ipywidgets.HBox([self.widget_parent])
-
         hbox_tmp.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
-        # hbox_tmp.layout.flex_flow = "row wrap"
         self.widget = ipywidgets.VBox([hbox_tmp])
+        self.box_widget = self.widget
         self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_VBOX_ANY)
         self._tuple_value_types = (str, )
+        self._update_widget_view()
 
     def _update_buttons_for_new_options(self):
         """Update buttons if options were changed"""

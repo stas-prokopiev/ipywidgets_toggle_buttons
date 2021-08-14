@@ -33,6 +33,7 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
         self.max_chosen_values = max_chosen_values
         self._update_width_of_middle_buttons_at_start()
         self._tuple_value_types = (list, tuple)
+        self._update_widget_view()
 
     def _update_width_of_middle_buttons_at_start(self):
         """Update width for buttons in middle box"""

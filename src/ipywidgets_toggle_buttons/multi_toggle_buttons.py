@@ -26,6 +26,7 @@ class MultiToggleButtons(ToggleButtonsABC):
         super().__init__(**kwargs)
         self.max_chosen_values = max_chosen_values
         self.widget = ipywidgets.HBox()
+        self.box_widget = self.widget
         self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
         self.widget_parent = ipywidgets.SelectMultiple(**kwargs)
         # Additional (Hidden) attributes
@@ -34,7 +35,7 @@ class MultiToggleButtons(ToggleButtonsABC):
         self._dict_but_by_option = OrderedDict()
         self._update_buttons_for_new_options()
         self._tuple_value_types = (list, tuple)
-        # self._update_widget_view()
+        self._update_widget_view()
 
     def _update_widget_view(self):
         """Update view of the widget according to all settings"""
