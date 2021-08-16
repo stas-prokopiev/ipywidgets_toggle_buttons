@@ -30,6 +30,7 @@ class ToggleButtonsAutoSize(ToggleButtonsABC):
         self.box_widget = self.widget
         self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_VBOX_ANY)
         self._tuple_value_types = (str, )
+        self._update_buttons_for_new_options()
         self._update_widget_view()
 
     def _update_buttons_for_new_options(self):

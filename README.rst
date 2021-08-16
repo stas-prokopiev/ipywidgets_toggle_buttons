@@ -61,6 +61,7 @@ Create and show this widget
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
+
     from ipywidgets_toggle_buttons import ToggleButtonsAutoSize
     wid = ToggleButtonsAutoSize(options=[str(i) for i in range(10)])
     wid  # OR wid.box_widget

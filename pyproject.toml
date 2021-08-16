@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ipywidgets_toggle_buttons"
-version = "0.1.4"
+version = "0.1.5"
 description = "PYPI package with better toggle buttons"
 authors = ["stanislav <stas.prokopiev@gmail.com>"]
 readme = "README.rst"
