@@ -52,6 +52,7 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         self._tuple_value_types = (str, )
         if "value" in kwargs:
             self.value = kwargs["value"]
+        self._update_buttons_for_new_options()
         self._update_widget_view()
 
     @property
