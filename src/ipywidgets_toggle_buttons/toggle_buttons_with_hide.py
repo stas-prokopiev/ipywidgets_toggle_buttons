@@ -75,6 +75,7 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         # This will also update the whole widget
         self.options_hidden = self._options_hidden
         self.options = self._options_visible + self._options_hidden
+        self._update_widget_view()
 
     @property
     def options_hidden(self):
@@ -98,7 +99,7 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         self._options_hidden = options_hidden_cleared
         self.options = self._options_visible + self._options_hidden
         self._create_buttons_for_hidden_options()
-        # self._update_widget_view()
+        self._update_widget_view()
 
     def turn_off_all_buttons(self):
         """Mark all buttons as not clicked"""
