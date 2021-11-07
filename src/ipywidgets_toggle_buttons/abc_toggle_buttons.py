@@ -58,8 +58,9 @@ class ToggleButtonsABC(ABC):
         Args:
             new_value (Any): Value to set for widget
         """
-        self.widget_parent.value = self._prepare_new_value(new_value)
-        self._update_widget_view()
+        if new_value != self.value:
+            self.widget_parent.value = self._prepare_new_value(new_value)
+            self._update_widget_view()
 
     @property
     def options(self):
@@ -73,6 +74,8 @@ class ToggleButtonsABC(ABC):
         Args:
             new_value (list or tuple): New options to set for widgets
         """
+        if set(new_value) == set(self.options):
+            return None
         self.widget_parent.options = new_value
         self._update_buttons_for_new_options()
 

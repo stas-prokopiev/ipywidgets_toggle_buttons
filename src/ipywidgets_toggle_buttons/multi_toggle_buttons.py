@@ -31,10 +31,10 @@ class MultiToggleButtons(ToggleButtonsABC):
         self.widget_parent = ipywidgets.SelectMultiple(**kwargs)
         # Additional (Hidden) attributes
         self.options = kwargs.get("options", [])
-        self.value = kwargs.get("value", [])
         self._dict_but_by_option = OrderedDict()
         self._update_buttons_for_new_options()
         self._tuple_value_types = (list, tuple)
+        self.value = kwargs.get("value", [])
         self._update_widget_view()
 
     def _update_widget_view(self):
@@ -73,7 +73,6 @@ class MultiToggleButtons(ToggleButtonsABC):
                 layout={"width": "%dpx" % int_width}
             )
             but.observe(self._on_click_button_to_choose_option, "value")
-            # but_wid.on_click(self._on_click_button_to_choose_option)
             self._dict_but_by_option[str_option] = but
-            list_buttons.append(self._dict_but_by_option[str_option])
+            list_buttons.append(but)
         self.widget.children = list_buttons

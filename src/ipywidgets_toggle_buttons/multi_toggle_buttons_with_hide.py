@@ -31,18 +31,13 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
             **kwargs
         )
         self.max_chosen_values = max_chosen_values
-        self._update_width_of_middle_buttons_at_start()
+        self._bool_is_hidden_options_created = False
+        # self._update_width_of_middle_buttons_at_start()
+        self._widget_but_hidden_option_selected.layout.width = "40%"
+        self._wid_but_hide_show.layout.width = "40%"
         self._tuple_value_types = (list, tuple)
         self._update_buttons_for_new_options()
         self._update_widget_view()
-
-    def _update_width_of_middle_buttons_at_start(self):
-        """Update width for buttons in middle box"""
-        int_button_width = self.func_to_get_option_width(
-            ["Hidden options selected: 100"])
-        self._widget_but_hidden_option_selected.layout.width = \
-            "%dpx" % int_button_width
-        self._wid_but_hide_show.layout.width = "%dpx" % int_button_width
 
     def _on_click_button_to_choose_option(self, wid_but):
         """What to do when button to choose options clicked"""
@@ -86,6 +81,11 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
             self._widget_but_hidden_option_selected.button_style = ""
         # Choose to show all boxes if button to_show_hidden pressed
         if self._wid_but_hide_show.value:
+
+            if not self._bool_is_hidden_options_created:
+                self._create_buttons_for_hidden_options()
+                self._bool_is_hidden_options_created = True
+
             self._wid_but_hide_show.description = "Hide Options below"
             self.widget.children = [
                 self._widget_hbox_main,

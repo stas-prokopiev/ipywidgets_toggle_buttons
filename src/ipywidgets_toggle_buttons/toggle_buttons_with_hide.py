@@ -42,6 +42,7 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         # hidden attributes to setters
         self._options_visible = []
         self._options_hidden = []
+        self._bool_is_hidden_options_created = False
         # Create scaffolds inside self.widgets
         self._create_scaffold_for_widget()
         self._dict_visible_button_by_option = OrderedDict()
@@ -67,6 +68,8 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         Args:
             new_value (list or tuple): New options to set for widgets
         """
+        if set(new_value) == set(self.options_visible):
+            return None
         if new_value is None:
             new_value = []
         self._options_visible = new_value
@@ -89,6 +92,8 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
         Args:
             new_value (list or tuple): New options to set for widgets
         """
+        if set(new_value) == set(self.options_hidden):
+            return None
         if new_value is None:
             new_value = []
         # Filter out from hidden options all options which exists in main
@@ -98,7 +103,7 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
                 options_hidden_cleared.append(str_option)
         self._options_hidden = options_hidden_cleared
         self.options = self._options_visible + self._options_hidden
-        self._create_buttons_for_hidden_options()
+        # self._create_buttons_for_hidden_options()
         self._update_widget_view()
 
     def turn_off_all_buttons(self):
@@ -116,7 +121,8 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
     def _update_buttons_for_new_options(self):
         """Update buttons if options were changed"""
         self._create_buttons_for_visible_options()
-        self._create_buttons_for_hidden_options()
+        self._bool_is_hidden_options_created = False
+        # self._create_buttons_for_hidden_options()
 
     def _update_widget_view(self):
         """Update view of the widget according to all settings"""
@@ -141,6 +147,12 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
             self._widget_but_hidden_option_selected.button_style = ""
         # Choose which boxes to show
         if self._wid_but_hide_show.value:
+
+            if not self._bool_is_hidden_options_created:
+                self._create_buttons_for_hidden_options()
+                self._bool_is_hidden_options_created = True
+
+
             self._wid_but_hide_show.description = "Hide Options below"
             self.widget.children = [
                 self._widget_hbox_main,
@@ -191,19 +203,17 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
 
     def _create_middle_buttons(self):
         """Create buttons which are in charge what to do with hidden buttons"""
-        int_button_width = self.func_to_get_option_width(["Show Hidden options"])
-
         self._wid_but_hide_show = ipywidgets.ToggleButton(
             value=False,
             description="Show Hidden options",
             button_style="info",
-            # width="%dpx" % int_button_width
         )
-        self._wid_but_hide_show.layout.width = "%dpx" % int_button_width
+        self._wid_but_hide_show.layout.width = "40%"
         self._wid_but_hide_show.observe(
             lambda _: self._update_widget_view(), "value")
         self._widget_but_hidden_option_selected = ipywidgets.Button(
             description="...", disabled=True)
+        self._widget_but_hidden_option_selected.layout.width = "40%"
         self._widget_hbox_middle_buttons.children = [
             self._widget_but_hidden_option_selected, self._wid_but_hide_show]
 
@@ -220,10 +230,4 @@ class ToggleButtonsWithHide(ToggleButtonsABC):
             but_wid.on_click(self._on_click_button_to_choose_option)
             self._dict_hidden_button_by_option[str_option] = but_wid
             list_buttons.append(but_wid)
-
         self._widget_hbox_hidden.children = list_buttons
-        # Update width of middle buttons
-        int_button_width2 = self.func_to_get_option_width(
-            self.options_hidden + ["Show Hidden options"])
-        self._widget_but_hidden_option_selected.layout = {
-            "width": "%dpx" % int_button_width2}
