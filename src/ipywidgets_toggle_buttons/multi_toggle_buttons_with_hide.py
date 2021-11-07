@@ -6,12 +6,12 @@ import logging
 import ipywidgets
 
 # Local imports
-from .toggle_buttons_with_hide import ToggleButtonsWithHide
+from .abc_toggle_buttons_with_hide import BaseToggleButtonsWithHide
 
 LOGGER = logging.getLogger(__name__)
 
 
-class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
+class MultiToggleButtonsWithHide(BaseToggleButtonsWithHide):
     """Class to show multi toggle buttons with section of hide options
     """
 
@@ -23,20 +23,15 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
             **kwargs
     ):
         """"""
-        # Main attributes
+        widget_parent = ipywidgets.SelectMultiple()
         super().__init__(
+            widget_parent,
             options_visible=options_visible,
             options_hidden=options_hidden,
-            _widget_parent=ipywidgets.SelectMultiple,
             **kwargs
         )
         self.max_chosen_values = max_chosen_values
-        self._bool_is_hidden_options_created = False
-        # self._update_width_of_middle_buttons_at_start()
-        self._widget_but_hidden_option_selected.layout.width = "40%"
-        self._wid_but_hide_show.layout.width = "40%"
         self._tuple_value_types = (list, tuple)
-        self._update_buttons_for_new_options()
         self._update_widget_view()
 
     def _on_click_button_to_choose_option(self, wid_but):
@@ -63,16 +58,10 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
         # If there are no hidden options then
         # don't create buttons for showing hidden options
         if not self.options_hidden:
-            self.widget.children = [self._widget_hbox_main]
+            self.children = [self._widget_hbox_main]
             return None
-        int_hidden_options_selected = 0
-        for str_value in self.value:
-            # Update hidden buttons
-            if str_value in self._dict_hidden_button_by_option:
-                but = self._dict_hidden_button_by_option[str_value]
-                but.button_style = "success"
-                int_hidden_options_selected += 1
-
+        int_hidden_options_selected = len(
+            set(self.value) & set(self.options_hidden))
         self._widget_but_hidden_option_selected.description = \
             "Hidden options selected: %d" % int_hidden_options_selected
         if int_hidden_options_selected:
@@ -87,14 +76,14 @@ class MultiToggleButtonsWithHide(ToggleButtonsWithHide):
                 self._bool_is_hidden_options_created = True
 
             self._wid_but_hide_show.description = "Hide Options below"
-            self.widget.children = [
+            self.children = [
                 self._widget_hbox_main,
                 self._widget_hbox_middle_buttons,
                 self._widget_hbox_hidden
             ]
             return None
         # Do not show hidden options
-        self.widget.children = [
+        self.children = [
             self._widget_hbox_main,
             self._widget_hbox_middle_buttons
         ]

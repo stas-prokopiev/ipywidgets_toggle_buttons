@@ -8,12 +8,12 @@ import ipywidgets
 
 # Local imports
 from .layouts import DICT_LAYOUT_HBOX_ANY
-from .abc_toggle_buttons import ToggleButtonsABC
+from .abc_toggle_buttons import BaseToggleButtons
 
 LOGGER = logging.getLogger(__name__)
 
 
-class MultiToggleButtons(ToggleButtonsABC):
+class MultiToggleButtons(BaseToggleButtons):
     """Class to show multi toggle buttons with auto width"""
 
     def __init__(self, max_chosen_values=999, **kwargs):
@@ -23,17 +23,14 @@ class MultiToggleButtons(ToggleButtonsABC):
             max_chosen_values (int): Max buttons can be activated at once
         """
         # Main attributes
-        super().__init__(**kwargs)
+        widget_parent = ipywidgets.SelectMultiple(**kwargs)
+        super().__init__(widget_parent, **kwargs)
         self.max_chosen_values = max_chosen_values
-        self.widget = ipywidgets.HBox()
-        self.box_widget = self.widget
-        self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
-        self.widget_parent = ipywidgets.SelectMultiple(**kwargs)
+        self._tuple_value_types = (list, tuple)
         # Additional (Hidden) attributes
         self.options = kwargs.get("options", [])
         self._dict_but_by_option = OrderedDict()
         self._update_buttons_for_new_options()
-        self._tuple_value_types = (list, tuple)
         self.value = kwargs.get("value", [])
         self._update_widget_view()
 
@@ -75,4 +72,5 @@ class MultiToggleButtons(ToggleButtonsABC):
             but.observe(self._on_click_button_to_choose_option, "value")
             self._dict_but_by_option[str_option] = but
             list_buttons.append(but)
-        self.widget.children = list_buttons
+        hbox_tmp = ipywidgets.HBox(list_buttons, layout=DICT_LAYOUT_HBOX_ANY)
+        self.children = [hbox_tmp]

@@ -7,13 +7,12 @@ import ipywidgets
 
 # Local imports
 from .layouts import DICT_LAYOUT_HBOX_ANY
-from .layouts import DICT_LAYOUT_VBOX_ANY
-from .abc_toggle_buttons import ToggleButtonsABC
+from .abc_toggle_buttons import BaseToggleButtons
 
 LOGGER = logging.getLogger(__name__)
 
 
-class ToggleButtonsAutoSize(ToggleButtonsABC):
+class ToggleButtonsAutoSize(BaseToggleButtons):
     """Class to show toggle buttons with auto width"""
 
     def __init__(self, *args, **kwargs):
@@ -22,13 +21,12 @@ class ToggleButtonsAutoSize(ToggleButtonsABC):
         Args:
             *args, **kwargs - Arguments to give into ipywidgets.ToggleButtons()
         """
-        super().__init__(**kwargs)
-        self.widget_parent = ipywidgets.ToggleButtons(*args, **kwargs)
-        hbox_tmp = ipywidgets.HBox([self.widget_parent])
-        hbox_tmp.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
-        self.widget = ipywidgets.VBox([hbox_tmp])
-        self.box_widget = self.widget
-        self.widget.layout = ipywidgets.Layout(**DICT_LAYOUT_VBOX_ANY)
+        widget_parent = ipywidgets.ToggleButtons(*args, **kwargs)
+        super().__init__(widget_parent, **kwargs)
+        hbox_tmp = ipywidgets.HBox(
+            [self.widget_parent], layout=DICT_LAYOUT_HBOX_ANY)
+        # hbox_tmp.layout = ipywidgets.Layout(**DICT_LAYOUT_HBOX_ANY)
+        self.children = [hbox_tmp]
         self._tuple_value_types = (str, )
         self._update_buttons_for_new_options()
         self._update_widget_view()
