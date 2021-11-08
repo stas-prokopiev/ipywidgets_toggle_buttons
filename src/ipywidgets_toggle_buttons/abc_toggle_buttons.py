@@ -67,6 +67,8 @@ class BaseToggleButtons(VBox):
         Args:
             new_value (list or tuple): New options to set for widgets
         """
+        if new_value is None:
+            new_value = []
         if set(new_value) == set(self.options):
             return None
         self.widget_parent.options = new_value

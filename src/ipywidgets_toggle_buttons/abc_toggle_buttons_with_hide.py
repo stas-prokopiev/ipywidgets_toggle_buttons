@@ -54,10 +54,10 @@ class BaseToggleButtonsWithHide(BaseToggleButtons):
         Args:
             new_value (list or tuple): New options to set for widgets
         """
-        if set(new_value) == set(self.options_visible):
-            return None
         if new_value is None:
             new_value = []
+        if set(new_value) == set(self.options_visible):
+            return None
         self._options_visible = new_value
         self._create_buttons_for_visible_options()
         # Update hidden options to delete which exists in new visible
@@ -78,10 +78,10 @@ class BaseToggleButtonsWithHide(BaseToggleButtons):
         Args:
             new_value (list or tuple): New options to set for widgets
         """
-        if set(new_value) == set(self.options_hidden):
-            return None
         if new_value is None:
             new_value = []
+        if set(new_value) == set(self.options_hidden):
+            return None
         # Filter out from hidden options all options which exists in main
         options_hidden_cleared = []
         for str_option in new_value:
