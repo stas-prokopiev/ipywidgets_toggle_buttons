@@ -63,7 +63,7 @@ class MultiToggleButtons(BaseToggleButtons):
         """Update buttons if options were changed"""
         list_buttons = []
         self._dict_but_by_option = OrderedDict()
-        int_width = self.func_to_get_option_width(self.options)
+        int_width = self._get_button_width(self.options)
         for str_option in list(self.options):
             but = ipywidgets.ToggleButton(
                 description=str_option,

@@ -43,7 +43,7 @@ Long Overview.
 
 This python package consists of other ToggleButtons classes
 
-- ToggleButtonsAutoSize - To adjust buttons size to show full their's description
+- ToggleButtonsAutoSize - To adjust buttons size to show their's full description automatically
 - MultiToggleButtons - To select a few options at once with usual ToggleButtons interface
 - ToggleButtonsWithHide - ToggleButtonsAutoSize + Hidden options
 - MultiToggleButtonsWithHide - MultiToggleButtons + Hidden options
@@ -51,7 +51,7 @@ This python package consists of other ToggleButtons classes
 | All of them will adjust size of buttons if options are modified.
 | Also they have usual interfaces to work with values and options
 
-Simple Usage examples
+Usage examples
 ===================================================================
 
 ToggleButtonsAutoSize
@@ -64,7 +64,7 @@ Create and show this widget
 
     from ipywidgets_toggle_buttons import ToggleButtonsAutoSize
     wid = ToggleButtonsAutoSize(options=[str(i) for i in range(10)])
-    wid  # OR wid.box_widget
+    wid
 
 .. image:: images/toggle_buttons_auto_size_1.JPG
 
@@ -94,7 +94,7 @@ Create and show this widget
         options=[str(i) for i in range(10)],
         max_chosen_values=2,
     )
-    wid  # OR wid.box_widget
+    wid
 
 .. image:: images/multi_toggle_buttons_1.JPG
 
@@ -124,7 +124,7 @@ Create and show this widget
         options_visible=[str(i) for i in range(10)],
         options_hidden=[str(i) for i in range(5, 15)],
     )
-    wid  # OR wid.box_widget
+    wid
 
 .. image:: images/toggle_buttons_with_hide_1.JPG
 
@@ -163,7 +163,7 @@ Create and show this widget
         options_hidden=[str(i) for i in range(5, 15)],
         max_chosen_values=4,
     )
-    wid  # OR wid.box_widget
+    wid
 
 .. image:: images/multi_toggle_buttons_with_hide_1.JPG
 
@@ -186,67 +186,6 @@ If at any moment you want to change the options then it can be done like shown b
 
     wid.options_visible = [str(i) for i in range(2)]
     wid.options_hidden = [f"another {i}" for i in range(2)]
-
-Advanced Usage examples
-===================================================================
-
-
-How to add this widgets into the Box, HBox, VBox
-------------------------------------------------------------
-
-.. code-block:: python
-
-    from ipywidget import Box
-
-    wid = AnyToggleButton(
-        ...,
-        func_to_get_option_width=func_new_width
-    )
-
-    wid_box = Box([])
-
-    def func_new_width(iter_options):
-
-        int_max_width = 0
-        for option in iter_options:
-            cur_but_width = 8 * len(option)
-            if cur_but_width > int_max_width:
-                int_max_width = cur_but_width
-        return int_max_width
-
-How to adjust buttons width differently
-------------------------------------------------------------
-
-During the initialization of any widget pass additional argument
-**func_to_get_option_width** with function which accepts itterator over options
-and returns 1 integer with width to use for this buttons
-
-.. code-block:: python
-
-    def func_new_width(iter_options):
-
-        int_max_width = 0
-        for option in iter_options:
-            cur_but_width = 8 * len(option)
-            if cur_but_width > int_max_width:
-                int_max_width = cur_but_width
-        return int_max_width
-
-    wid = AnyToggleButton(
-        ...,
-        func_to_get_option_width=func_new_width
-    )
-
-How to access all options of the widget
-------------------------------------------------------------
-
-Use attribute **.widget** to get full control over shown widget
-
-.. code-block:: python
-
-    wid = AnyToggleButton(...)
-    wid.widget
-
 
 Links
 =====

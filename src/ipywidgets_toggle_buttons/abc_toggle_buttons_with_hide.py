@@ -128,7 +128,7 @@ class BaseToggleButtonsWithHide(BaseToggleButtons):
     def _create_buttons_for_visible_options(self):
         """Create buttons for all visible options"""
         self._dict_visible_button_by_option = OrderedDict()
-        int_button_width = self.func_to_get_option_width(self.options_visible)
+        int_button_width = self._get_button_width(self.options_visible)
         list_buttons = []
         for str_option in list(self.options_visible):
             but_wid = ipywidgets.Button(
@@ -159,7 +159,7 @@ class BaseToggleButtonsWithHide(BaseToggleButtons):
     def _create_buttons_for_hidden_options(self):
         """Create buttons for all hidden options"""
         self._dict_hidden_button_by_option = OrderedDict()
-        int_button_width = self.func_to_get_option_width(self.options_hidden)
+        int_button_width = self._get_button_width(self.options_hidden)
         list_buttons = []
         for str_option in list(self.options_hidden):
             but_wid = ipywidgets.Button(

@@ -7,7 +7,6 @@ from abc import abstractmethod
 from ipywidgets import VBox
 
 # Local imports
-from .utility import get_buttons_min_width_needed
 from .layouts import DICT_LAYOUT_VBOX_ANY
 
 LOGGER = logging.getLogger(__name__)
@@ -20,16 +19,14 @@ class BaseToggleButtons(VBox):
     Which is updated in the moment when display() is launched
     """
 
-    def __init__(self, widget_parent, func_to_get_option_width=None, **kwargs):
+    def __init__(self, widget_parent, **kwargs):
         """Initialize object"""
         self.widget_parent = widget_parent
         self.observe = self.widget_parent.observe
         super().__init__(layout=DICT_LAYOUT_VBOX_ANY)
         self._tuple_value_types = (str, list, tuple)
         #####
-        self.func_to_get_option_width = get_buttons_min_width_needed
-        if func_to_get_option_width is not None:
-            self.func_to_get_option_width = func_to_get_option_width
+        # self._get_button_width = self._get_buttons_min_width_needed
 
     @abstractmethod
     def _update_widget_view(self):
@@ -85,3 +82,28 @@ class BaseToggleButtons(VBox):
             LOGGER.debug("Max number of pressed buttons reached")
             new_value = new_value[-self.max_chosen_values:]
         return new_value
+
+    @staticmethod
+    def _get_button_width(iter_options):
+        """Get width to use for buttons with given options
+
+        Args:
+            iter_options (any iterable): options for toggle buttons
+
+        Returns:
+            int: width in px to use for buttons with given options
+        """
+        if not iter_options:
+            return 100
+        list_lengths = []
+        for option in iter_options:
+            int_length = 5
+            for str_letter in str(option):
+                int_length += 8
+                if str_letter.isupper():
+                    int_length += 4
+            list_lengths.append(int_length)
+        int_button_width = max(list_lengths)
+        int_button_width = max(120, int_button_width)
+        int_button_width = min(300, int_button_width)
+        return int_button_width

@@ -33,7 +33,7 @@ class ToggleButtonsAutoSize(BaseToggleButtons):
 
     def _update_buttons_for_new_options(self):
         """Update buttons if options were changed"""
-        int_width = self.func_to_get_option_width(self.options)
+        int_width = self._get_button_width(self.options)
         self.widget_parent.style.button_width = "%dpx" % int_width
 
     def _update_widget_view(self):
