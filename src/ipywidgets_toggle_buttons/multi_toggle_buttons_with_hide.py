@@ -55,6 +55,9 @@ class MultiToggleButtonsWithHide(BaseToggleButtonsWithHide):
             if str_value in self._dict_visible_button_by_option:
                 but = self._dict_visible_button_by_option[str_value]
                 but.button_style = "success"
+            if str_value in self._dict_hidden_button_by_option:
+                but = self._dict_hidden_button_by_option[str_value]
+                but.button_style = "success"
         # If there are no hidden options then
         # don't create buttons for showing hidden options
         if not self.options_hidden:
